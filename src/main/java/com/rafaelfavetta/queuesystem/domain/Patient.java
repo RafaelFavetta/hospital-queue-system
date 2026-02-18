@@ -20,4 +20,7 @@ public class Patient {
     @Setter
     private long arrivalOrder;
 
+    public boolean isElderly() {
+        return age.age() >= 60;
+    }
 }
