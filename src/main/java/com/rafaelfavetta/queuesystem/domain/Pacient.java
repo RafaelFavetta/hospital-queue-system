@@ -1,5 +1,6 @@
 package com.rafaelfavetta.queuesystem.domain;
 
+import com.rafaelfavetta.queuesystem.domain.valueObjects.Age;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Name;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Ulid;
 
