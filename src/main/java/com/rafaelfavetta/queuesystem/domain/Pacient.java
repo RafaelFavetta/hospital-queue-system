@@ -3,7 +3,13 @@ package com.rafaelfavetta.queuesystem.domain;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Age;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Name;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Ulid;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@Builder
+@Getter
 public class Pacient {
 
     private Ulid id;
