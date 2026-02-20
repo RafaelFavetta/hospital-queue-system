@@ -6,11 +6,10 @@ import com.rafaelfavetta.queuesystem.domain.valueObjects.Ulid;
 import lombok.*;
 
 @ToString
-@Builder
 @Getter
 public class Patient implements Comparable<Patient> {
 
-    private Ulid id;
+    private final Ulid id;
 
     private Age age;
     private PriorityLevel priorityLevel;
@@ -18,13 +17,15 @@ public class Patient implements Comparable<Patient> {
     @Setter
     private long arrivalOrder;
 
-    public Patient(Ulid id, Age age, PriorityLevel priorityLevel, Name name, long arrivalOrder) {
-        this.id = id;
+    @Builder
+    public Patient(Age age, PriorityLevel priorityLevel, Name name, long arrivalOrder) {
+        this.id = Ulid.generate();
         this.age = age;
         this.priorityLevel = priorityLevel;
         this.name = name;
         this.arrivalOrder = arrivalOrder;
     }
+
 
     public boolean isElderly() {
         return age.age() >= 60;
