@@ -8,9 +8,10 @@ import lombok.*;
 @ToString
 @Builder
 @Getter
-public class Patient {
+public class Patient implements Comparable<Patient> {
 
     private Ulid id;
+
     private Age age;
     private PriorityLevel priorityLevel;
     private Name name;
@@ -27,5 +28,28 @@ public class Patient {
 
     public boolean isElderly() {
         return age.age() >= 60;
+    }
+
+    private int calculatePriority() {
+        int priorityScore = priorityLevel.getLevel() * 10;
+
+        if (isElderly()) {
+            priorityScore += 5;
+        }
+
+        return priorityScore;
+    }
+
+
+    @Override
+    public int compareTo(Patient otherPatient) {
+        int thisPriority = this.calculatePriority();
+        int otherPriority = otherPatient.calculatePriority();
+
+        if (thisPriority != otherPriority) {
+            return Integer.compare(otherPriority, thisPriority);
+        }
+
+        return Long.compare(this.arrivalOrder, otherPatient.arrivalOrder);
     }
 }
