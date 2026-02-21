@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Log4j2
 public class ConsoleUI {
@@ -83,10 +84,18 @@ public class ConsoleUI {
         while (true) {
             int choice = readInt();
             switch (choice) {
-                case 1 -> { return PriorityLevel.LOW; }
-                case 2 -> { return PriorityLevel.MEDIUM; }
-                case 3 -> { return PriorityLevel.HIGH; }
-                case 4 -> { return PriorityLevel.EXTREME; }
+                case 1 -> {
+                    return PriorityLevel.LOW;
+                }
+                case 2 -> {
+                    return PriorityLevel.MEDIUM;
+                }
+                case 3 -> {
+                    return PriorityLevel.HIGH;
+                }
+                case 4 -> {
+                    return PriorityLevel.EXTREME;
+                }
                 default -> {
                     log.warn("Invalid priority level. Choose between 1 and 4.");
                     System.out.print("Choice: ");
@@ -137,7 +146,14 @@ public class ConsoleUI {
             log.info("No patients in the queue.");
             return;
         }
-        queueService.showQueue();
+
+        log.info("Current queue:");
+        List<Patient> queue = queueService.getSnapshotQueue();
+        for (int i = 0; i < queue.size(); i++) {
+            Patient p = queue.get(i);
+            log.info("{}. {} | Priority: {} | Age: {}",
+                    i + 1, p.getName().name(), p.getPriorityLevel(), p.getAge().age());
+        }
     }
 
     private void callNextPatient() {
