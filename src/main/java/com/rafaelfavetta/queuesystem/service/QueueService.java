@@ -2,6 +2,8 @@ package com.rafaelfavetta.queuesystem.service;
 
 import com.rafaelfavetta.queuesystem.domain.Patient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class QueueService {
@@ -37,6 +39,12 @@ public class QueueService {
                     return Long.compare(p1.getArrivalOrder(), p2.getArrivalOrder());
                 })
                 .forEach(System.out::println);
+    }
+
+    public List<Patient> getSnapshotQueue() {
+        return queue.stream()
+                .sorted()
+                .toList();
     }
 }
 
