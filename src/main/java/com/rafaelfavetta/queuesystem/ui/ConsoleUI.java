@@ -5,7 +5,6 @@ import com.rafaelfavetta.queuesystem.domain.valueObjects.Age;
 import com.rafaelfavetta.queuesystem.domain.valueObjects.Name;
 import com.rafaelfavetta.queuesystem.service.QueueService;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
