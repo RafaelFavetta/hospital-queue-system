@@ -252,6 +252,6 @@ docker-compose down -v
 
 ## 📝 License
 
-This project was made for learning and is open source and available under the [MIT License](LICENSE).
+This project was made for the purpose of learning and is open source and available
 
 ---
