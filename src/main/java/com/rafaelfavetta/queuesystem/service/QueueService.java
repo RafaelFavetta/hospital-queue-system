@@ -1,50 +1,42 @@
 package com.rafaelfavetta.queuesystem.service;
 
 import com.rafaelfavetta.queuesystem.domain.Patient;
+import com.rafaelfavetta.queuesystem.repository.PatientRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Optional;
 
 public class QueueService {
 
-    private final PriorityQueue<Patient> queue;
-    private long arrivalCounter;
+    private final PatientRepository patientRepository;
 
     public QueueService() {
-        this.queue = new PriorityQueue<>();
-        this.arrivalCounter = 0;
+        this.patientRepository = new PatientRepository();
+    }
+
+    public QueueService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
     public void addPatient(Patient patient) {
-        patient.setArrivalOrder(arrivalCounter++);
-        queue.add(patient);
+        patientRepository.addPatient(patient);
     }
 
     public Patient callNextPatient() {
-        return queue.poll();
+        Optional<Patient> patient = patientRepository.callNextPatient();
+        return patient.orElse(null);
     }
 
     public boolean isEmpty() {
-        return queue.isEmpty();
-    }
-
-    public void showQueue() {
-        queue.stream()
-                .sorted((p1, p2) -> {
-                    int priorityComparison = Integer.compare(p2.getPriorityLevel().getLevel(), p1.getPriorityLevel().getLevel());
-                    if (priorityComparison != 0) {
-                        return priorityComparison;
-                    }
-                    return Long.compare(p1.getArrivalOrder(), p2.getArrivalOrder());
-                })
-                .forEach(System.out::println);
+        return patientRepository.isQueueEmpty();
     }
 
     public List<Patient> getSnapshotQueue() {
-        return queue.stream()
-                .sorted()
-                .toList();
+        return patientRepository.getAllInQueue();
+    }
+
+    public int getQueueSize() {
+        return patientRepository.getQueueSize();
     }
 }
 
