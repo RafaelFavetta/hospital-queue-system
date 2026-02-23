@@ -18,8 +18,8 @@ public class Patient implements Comparable<Patient> {
     private long arrivalOrder;
 
     @Builder
-    public Patient(Age age, PriorityLevel priorityLevel, Name name, long arrivalOrder) {
-        this.id = Ulid.generate();
+    public Patient(Ulid id, Age age, PriorityLevel priorityLevel, Name name, long arrivalOrder) {
+        this.id = id != null ? id : Ulid.generate();
         this.age = age;
         this.priorityLevel = priorityLevel;
         this.name = name;
