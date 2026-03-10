@@ -1,6 +1,6 @@
 # 🏥 Hospital Queue System
 
-A hospital queue management system that prioritizes patients based on urgency level and age. Built with Java, Lombok, PostgreSQL and Docker.
+A complete hospital queue management system with both backend (Java) and frontend (React) that prioritizes patients based on urgency level and age. Features real-time updates, modern UI, and robust data persistence.
 
 ## 📋 Table of Contents
 
@@ -16,16 +16,27 @@ A hospital queue management system that prioritizes patients based on urgency le
 
 ## ✨ Features
 
+### Core Features
 - **Priority-based Queue Management**: Patients are ordered by priority level (LOW, MEDIUM, HIGH, EXTREME)
 - **Elderly Priority Bonus**: Patients aged 60+ receive additional priority
 - **ULID Identifiers**: Uses ULID (Universally Unique Lexicographically Sortable Identifier) for patient IDs
 - **Input Validation**: Validation for names (letters only) and age (0-130)
 - **Queue History**: Tracks all queue actions (ADDED, CALLED, REMOVED)
-- **Console Interface**: User-friendly command-line interface
-- **PostgreSQL Persistence**: Data is persisted in a PostgreSQL database
+
+### Frontend Features
+- **Real-time Updates**: Queue automatically updates across all connected clients
+- **Modern Web UI**: Professional, responsive interface with smooth animations
+- **Modal Notifications**: Visual feedback when calling patients
+- **Mobile-Friendly**: Works seamlessly on desktop and mobile devices
+
+### Backend Options
+- **Console Interface**: User-friendly command-line interface (Java)
+- **Supabase Backend**: Cloud database with real-time capabilities (Frontend)
+- **PostgreSQL Persistence**: Robust data storage with Docker support
 
 ## 🛠 Technologies
 
+### Backend (Java Console Application)
 - **Java 17**
 - **Maven** - Dependency management
 - **PostgreSQL 16** - Database
@@ -35,78 +46,101 @@ A hospital queue management system that prioritizes patients based on urgency le
 - **JDBC** - Database connectivity
 - **ULID Creator** - Unique identifier generation
 
+### Frontend (Web Application)
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **Supabase** - Backend database and real-time subscriptions
+- **CSS3** - Modern styling with animations
+
 ## 📦 Prerequisites
 
-Before running this project, make sure you have installed:
-
-- [Java 17+](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) (or any JDK 17+ distribution)
+### For Java Console Application
+- [Java 17+](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [Maven 3.6+](https://maven.apache.org/download.cgi)
 - [Docker](https://www.docker.com/products/docker-desktop/) and Docker Compose
 
+### For Web Frontend
+- [Node.js 18+](https://nodejs.org/)
+- npm or yarn
+
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+You can run either the Java console application or the web frontend (or both).
 
-```bash
-git clone https://github.com/yourusername/hospital-queue-system.git
-cd hospital-queue-system
-```
+### Option 1: Java Console Application
 
-### 2. Start the PostgreSQL database
+#### 1. Start the PostgreSQL database
 
 ```bash
 docker-compose up -d
 ```
 
-This will:
-- Start a PostgreSQL 16 container on port **5433**
-- Automatically create the database schema using `init.sql`
+This will start a PostgreSQL 16 container on port **5433** with the schema automatically created.
 
-### 3. Build the project
+#### 2. Build and run
 
 ```bash
 mvn clean compile
-```
-
-### 4. Run the application
-
-```bash
 mvn exec:java -Dexec.mainClass="com.rafaelfavetta.queuesystem.Main"
 ```
 
 Or run directly from your IDE by executing the `Main.java` class.
 
+### Option 2: Web Frontend
+
+#### 1. Navigate to the frontend directory
+
+```bash
+cd frontend
+```
+
+#### 2. Install dependencies
+
+```bash
+npm install
+```
+
+#### 3. Run the development server
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+The frontend uses Supabase as the database backend, which is already configured.
+
 ## 📁 Project Structure
 
 ```
 hospital-queue-system/
-├── src/
-│   ├── main/
-│   │   ├── java/com/rafaelfavetta/queuesystem/
-│   │   │   ├── Main.java                 # Application entry point
-│   │   │   ├── domain/                   # Domain entities
-│   │   │   │   ├── Patient.java          # Patient entity
-│   │   │   │   ├── PriorityLevel.java    # Priority enum (LOW, MEDIUM, HIGH, EXTREME)
-│   │   │   │   └── valueObjects/         # Value objects
-│   │   │   │       ├── Age.java          # Age validation (0-130)
-│   │   │   │       ├── Name.java         # Name validation (letters only)
-│   │   │   │       └── Ulid.java         # ULID wrapper
-│   │   │   ├── repository/               # Data access layer
-│   │   │   │   ├── DatabaseConnection.java
-│   │   │   │   ├── PatientRepository.java
-│   │   │   │   └── QueueRepository.java
-│   │   │   ├── service/                  # Business logic
-│   │   │   │   └── QueueService.java
-│   │   │   └── ui/                       # User interface
-│   │   │       └── ConsoleUI.java
-│   │   └── resources/
-│   │       ├── database.properties       # Database configuration
-│   │       ├── log4j2.xml               # Logging configuration
-│   │       └── db/
-│   │           └── init.sql             # Database schema
-│   └── test/
-├── docker-compose.yml
-├── pom.xml
+├── src/                                  # Java backend source
+│   ├── main/java/com/rafaelfavetta/queuesystem/
+│   │   ├── Main.java                    # Console app entry point
+│   │   ├── domain/                      # Domain entities
+│   │   ├── repository/                  # Data access layer
+│   │   ├── service/                     # Business logic
+│   │   └── ui/                          # Console interface
+│   └── main/resources/
+│       ├── database.properties          # Database config
+│       └── db/init.sql                  # Database schema
+├── frontend/                            # React web application
+│   ├── src/
+│   │   ├── components/                  # React components
+│   │   │   ├── AddPatientForm.tsx
+│   │   │   ├── QueueList.tsx
+│   │   │   └── CalledPatientModal.tsx
+│   │   ├── services/
+│   │   │   └── queueService.ts          # API calls and real-time
+│   │   ├── lib/
+│   │   │   └── supabase.ts              # Supabase client
+│   │   ├── App.tsx                      # Main component
+│   │   └── main.tsx                     # Entry point
+│   ├── .env                             # Supabase configuration
+│   └── package.json
+├── docker-compose.yml                   # PostgreSQL container
+├── pom.xml                              # Maven config
 └── README.md
 ```
 
